@@ -23,7 +23,7 @@ export default function Home() {
 
     fetchData();
   }, []);
-  return (<main className="flex min-h-screen flex-col items-center justify-between p-24 bg-gray-300">
+  return (<main className="flex min-h-screen flex-col items-center justify-between sm:py-10 sm:p-2 md:p-24 bg-gray-300">
     <Carousel
       opts={{
         align: "start",
@@ -31,7 +31,7 @@ export default function Home() {
       orientation="vertical"
       className="w-full max-w-xs"
     >
-      <CarouselContent className="p-auto m-auto md:w-[270px] md:h-[600px]">
+      <CarouselContent className="p-auto m-auto md:w-[270px] h-[600px]">
         {Array.from({ length: news.length }).map((_, index) => (
           <CarouselItem key={index} className="pt-1" >
                   <a href={news[index].url}>
@@ -53,7 +53,7 @@ export default function Home() {
 function NewsCard({ title, description, image_url }: { title: string, description: string, image_url: string }) {
   return (<Card className="cursor-pointer">
     <CardHeader className='flex justify-between items-center'>
-      <img alt={title} src={image_url} width={200} />
+      <img alt={title} src={image_url} width={"100%"} />
     </CardHeader>
     <CardContent>
       <CardTitle>{title}</CardTitle>
