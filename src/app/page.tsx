@@ -32,23 +32,28 @@ export default function Home() {
       orientation="vertical"
       className="mt-10 max-w-auto lg:h-[300px]  flex min-h-screen flex-col items-center justify-between sm:py-10 sm:p-2 md:p-24 "
     >
-      <CarouselContent className="p-auto m-auto  h-dvh">
-        {Array.from({ length: news.length }).map((_, index) => (
-          <CarouselItem key={index} className="pt-1" >
-            <a href={news[index].url}>
-              <NewsCard title={news[index].title} description={news[index].description} image_url={news[index].urlToImage} url={news[index].url} author={news[index].author} />
-            </a>
+      {news.length > 0 ?
+        (<CarouselContent className="p-auto m-auto  h-dvh">
+          {Array.from({ length: news.length }).map((_, index) => (
+            <CarouselItem key={index} className="pt-1 pb-2" >
+              <a href={news[index].url}>
+                <NewsCard title={news[index].title} description={news[index].description} image_url={news[index].urlToImage} url={news[index].url} author={news[index].author} />
+              </a>
+            </CarouselItem>
+          ))}
+          <CarouselItem key={news.length} className="pt-1 pb-2" >
+            <Card className="cursor-pointer h-full lg:h-[300px]">
+              <CardContent>
+                <CardTitle>No More content</CardTitle>
+                <CardDescription>Please try after sometime...</CardDescription>
+              </CardContent>
+            </Card>
           </CarouselItem>
-        ))}
-        <CarouselItem key={news.length} className="pt-1" >
-          <Card className="cursor-pointer h-full lg:h-[300px]">
-            <CardContent>
-              <CardTitle>No More content</CardTitle>
-              <CardDescription>Please try after sometime...</CardDescription>
-            </CardContent>
-          </Card>
-        </CarouselItem>
-      </CarouselContent>
+        </CarouselContent>)
+        :
+        (
+          <p>Content Loading....</p>
+        )}
     </Carousel>
   )
 }
@@ -60,7 +65,7 @@ function NewsCard({ title, description, image_url, url, author }: { title: strin
   return (
     <Card className="cursor-pointer h-full lg:h-[300px]">
       <CardHeader className='flex justify-between items-center'>
-        <img alt={title} src={image_url} className=' h-full lg:h-[200px] w-full lg:w-[200px] object-cover' />
+        <img loading="lazy" alt={title} src={image_url} className=' lazy-load h-full lg:h-[200px] w-full lg:w-[200px] object-cover' />
       </CardHeader>
       <CardContent>
         <CardTitle>{title}</CardTitle>
