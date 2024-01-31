@@ -29,7 +29,7 @@ export default function Home() {
         align: "start",
       }}
       orientation="vertical"
-      className="w-full max-w-xs"
+      className="w-full max-w-xs py-10"
     >
       <CarouselContent className="p-auto m-auto md:w-[270px] h-[600px]">
         {Array.from({ length: news.length }).map((_, index) => (
