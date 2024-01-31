@@ -31,7 +31,7 @@ export default function Home() {
       orientation="vertical"
       className="w-full max-w-xs"
     >
-      <CarouselContent className="p-auto m-auto w-[270px] h-[600px]">
+      <CarouselContent className="p-auto m-auto md:w-[270px] md:h-[600px]">
         {Array.from({ length: news.length }).map((_, index) => (
           <CarouselItem key={index} className="pt-1" >
                   <a href={news[index].url}>
