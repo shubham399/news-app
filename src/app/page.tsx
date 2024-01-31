@@ -30,10 +30,10 @@ export default function Home() {
         align: "start",
       }}
       orientation="vertical"
-      className="mt-10 max-w-auto lg:h-[300px]  flex min-h-screen flex-col items-center justify-between sm:py-10 sm:p-2 md:p-24 "
+      className="mt-10 max-w-auto  flex min-h-screen flex-col items-center justify-between"
     >
       {news.length > 0 ?
-        (<CarouselContent className="p-auto m-auto  h-dvh">
+        (<CarouselContent className="p-auto m-auto h-svh w-svh">
           {Array.from({ length: news.length }).map((_, index) => (
             <CarouselItem key={index} className="pt-1 pb-2" >
               <a href={news[index].url}>
@@ -63,17 +63,16 @@ export default function Home() {
 
 function NewsCard({ title, description, image_url, url, author }: { title: string, description: string, image_url: string, url: string, author?: string }) {
   return (
-    <Card className="cursor-pointer h-full lg:h-[300px]">
-      <CardHeader className='flex justify-between items-center'>
-        <img loading="lazy" alt={title} src={image_url} className=' lazy-load h-full lg:h-[200px] w-full lg:w-[200px] object-cover' />
-      </CardHeader>
-      <CardContent>
+    <Card className=" overflow-clip cursor-pointer m-auto  p-auto h-[80vh] w-[80vw] lg:h-[80vh] lg:w-[60vw] flex flex-col justify-between">
+      <CardHeader className='flex justify-center items-center'>
+        <img loading="lazy" alt={title} src={image_url} className='h-full w-full max-h-[600px] max-w-[600px] object-cover' />
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
-      </CardContent>
+      </CardHeader>
       <CardFooter className="flex justify-between">
         <Link className="text-sm" href={url}>Read More</Link>
         <p className='text-mute truncate'>{author && `By ${author}`}</p>
       </CardFooter>
-    </Card>);
+    </Card>
+  );
 }
