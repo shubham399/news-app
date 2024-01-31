@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import Link from 'next/link';
 
 
 
@@ -23,41 +24,51 @@ export default function Home() {
 
     fetchData();
   }, []);
-  return (<main className="flex min-h-screen flex-col items-center justify-between sm:py-10 sm:p-2 md:p-24 bg-gray-300">
+  return (
     <Carousel
       opts={{
         align: "start",
       }}
       orientation="vertical"
-      className="w-full max-w-xs py-10"
+      className="mt-10 max-w-auto lg:h-[300px]  flex min-h-screen flex-col items-center justify-between sm:py-10 sm:p-2 md:p-24 "
     >
-      <CarouselContent className="p-auto m-auto md:w-[270px] h-[600px]">
+      <CarouselContent className="p-auto m-auto  h-dvh">
         {Array.from({ length: news.length }).map((_, index) => (
           <CarouselItem key={index} className="pt-1" >
-                  <a href={news[index].url}>
-                  <NewsCard title={news[index].title} description={news[index].description} image_url={news[index].urlToImage} />
-                  </a>
+            <a href={news[index].url}>
+              <NewsCard title={news[index].title} description={news[index].description} image_url={news[index].urlToImage} url={news[index].url} author={news[index].author} />
+            </a>
           </CarouselItem>
         ))}
+        <CarouselItem key={news.length} className="pt-1" >
+          <Card className="cursor-pointer h-full lg:h-[300px]">
+            <CardContent>
+              <CardTitle>No More content</CardTitle>
+              <CardDescription>Please try after sometime...</CardDescription>
+            </CardContent>
+          </Card>
+        </CarouselItem>
       </CarouselContent>
     </Carousel>
-
-  </main>)
+  )
 }
 
 
 
 
-function NewsCard({ title, description, image_url }: { title: string, description: string, image_url: string }) {
-  return (<Card className="cursor-pointer">
-    <CardHeader className='flex justify-between items-center'>
-      <img alt={title} src={image_url} width={"100%"} />
-    </CardHeader>
-    <CardContent>
-      <CardTitle>{title}</CardTitle>
-      <CardDescription>{description}</CardDescription>
-    </CardContent>
-    <CardFooter className="flex justify-between">
-    </CardFooter>
-  </Card>);
+function NewsCard({ title, description, image_url, url, author }: { title: string, description: string, image_url: string, url: string, author?: string }) {
+  return (
+    <Card className="cursor-pointer h-full lg:h-[300px]">
+      <CardHeader className='flex justify-between items-center'>
+        <img alt={title} src={image_url} className=' h-full lg:h-[200px] w-full lg:w-[200px] object-cover' />
+      </CardHeader>
+      <CardContent>
+        <CardTitle>{title}</CardTitle>
+        <CardDescription>{description}</CardDescription>
+      </CardContent>
+      <CardFooter className="flex justify-between">
+        <Link className="text-sm" href={url}>Read More</Link>
+        {author && `By ${author}`}
+      </CardFooter>
+    </Card>);
 }
