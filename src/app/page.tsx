@@ -73,7 +73,7 @@ function NewsCard({ title, description, image_url, url, author }: { title: strin
       </CardContent>
       <CardFooter className="flex justify-between">
         <Link className="text-sm" href={url}>Read More</Link>
-        {author && `By ${author}`}
+        <p className='text-mute truncate'>{author && `By ${author}`}</p>
       </CardFooter>
     </Card>);
 }
