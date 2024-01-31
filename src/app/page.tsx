@@ -35,13 +35,11 @@ export default function Home() {
         {Array.from({ length: news.length }).map((_, index) => (
           <CarouselItem key={index} className="pt-1" >
                   <a href={news[index].url}>
-                  <NewsCard title={news[index].title} description={news[index].content || news[index].description} image_url={news[index].urlToImage} />
+                  <NewsCard title={news[index].title} description={news[index].description} image_url={news[index].urlToImage} />
                   </a>
           </CarouselItem>
         ))}
       </CarouselContent>
-      {/* <CarouselPrevious /> */}
-      {/* <CarouselNext /> */}
     </Carousel>
 
   </main>)
