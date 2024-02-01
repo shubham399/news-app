@@ -29,9 +29,9 @@ export default async function Home() {
         align: "start",
       }}
       orientation="vertical"
-      className="mt-10 max-w-auto  flex min-h-screen flex-col items-center justify-between"
+      className="mt-10 max-w-auto  flex h-dvh flex-col items-center justify-between bg-gray-50"
     >
-      <CarouselContent className="p-auto m-auto h-svh w-svh">
+      <CarouselContent className="pt-10 p-auto m-auto h-svh w-svh">
         {Array.from({ length: news.length }).map((_, index) => (
           <CarouselItem key={index} className="pt-1 pb-2" >
             <a href={news[index].url}>
