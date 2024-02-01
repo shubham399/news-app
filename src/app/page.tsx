@@ -1,29 +1,33 @@
-'use client';
-import xml2js from 'xml2js';
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import Link from 'next/link';
 
+export const revalidate = 3600 // revalidate at most every hour
 
 
 
-export default function Home() {
-  const [news, setNews] = useState<any[]>([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await fetch('/api/news').then((response) => response.json());
-      console.log(result)
-      setNews(result);
-    };
+type NewsProp = {
+  title: string,
+  url: string,
+  description: string,
+  urlToImage?: string,
+  author?: string,
+}
 
-    fetchData();
-  }, []);
+
+async function getNews() {
+  const URL = `https://newsapi.org/v2/top-headlines?language=en&apiKey=${process.env.API_KEY}&pageSize=100`;
+  const response = await fetch(URL, { next: { revalidate: 3600 } });
+  const data = await response.json()
+  const news = data.articles.filter((a: any) => a.urlToImage != null)
+  return news as NewsProp[];
+}
+
+
+
+export default async function Home() {
+  const news = await getNews()
   return (
     <Carousel
       opts={{
@@ -61,10 +65,11 @@ export default function Home() {
 
 
 
-function NewsCard({ title, description, image_url, url, author }: { title: string, description: string, image_url: string, url: string, author?: string }) {
+function NewsCard({ title, description, image_url, url, author }: { title: string, description: string, image_url?: string, url: string, author?: string }) {
   return (
     <Card className=" overflow-clip cursor-pointer m-auto  p-auto h-[80vh] w-[80vw] lg:h-[80vh] lg:w-[60vw] flex flex-col justify-between">
       <CardHeader className='flex justify-center items-center'>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img loading="lazy" alt={title} src={image_url} className='h-full w-full max-h-[600px] max-w-[600px] object-cover' />
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
