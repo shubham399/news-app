@@ -1,6 +1,9 @@
+'use client';
+
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import Link from 'next/link';
+import { useEffect, useState } from "react";
 
 type NewsProp = {
   title: string,
@@ -11,18 +14,14 @@ type NewsProp = {
 }
 
 
-async function getNews() {
-  const URL = `https://newsapi.org/v2/top-headlines?language=en&apiKey=${process.env.API_KEY}&pageSize=100`;
-  const response = await fetch(URL, { next: { revalidate: 3600 } });
-  const data = await response.json()
-  const news = data.articles.filter((a: any) => a.urlToImage != null)
-  return news as NewsProp[];
-}
 
+export default function Home() {
+  const [news, setNews] = useState<NewsProp[]>([])
 
+  useEffect(() => {
+    fetch('/api/news', { next: { 'revalidate': 3600 } }).then(res => res.json()).then(setNews)
+  }, [])
 
-export default async function Home() {
-  const news = await getNews()
   return (
     <Carousel
       opts={{
