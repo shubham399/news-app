@@ -26,7 +26,6 @@ export default function Home() {
 
   return (
     <>
-
       {news.length > 0 ? (<Carousel
         opts={{
           align: "start",
@@ -34,10 +33,10 @@ export default function Home() {
         orientation="vertical"
         className="mt-10 max-w-auto  flex h-dvh flex-col items-center justify-between bg-gray-50">
         <CarouselContent className="pt-10 p-auto m-auto h-svh w-svh">
-          {news.map((newss, index) => (
+          {news.map((singleNews, index) => (
             <CarouselItem key={index} className="pt-1 pb-2" >
-              <a href={newss.url}>
-                <NewsCard title={newss.title} description={newss.description} image_url={newss.urlToImage} url={newss.url} author={newss.author} />
+              <a href={singleNews.url}>
+                <NewsCard title={singleNews.title} description={singleNews.description} image_url={singleNews.urlToImage} url={singleNews.url} author={singleNews.author} />
               </a>
             </CarouselItem>
           ))}
@@ -46,10 +45,7 @@ export default function Home() {
               <CardHeader className='flex justify-center items-center'>
                 <CardTitle>No More Content</CardTitle>
                 <CardDescription>
-
-                  <p>Please Try Later</p>
-
-
+                  Please Try Later
                 </CardDescription>
               </CardHeader>
               <CardFooter className="flex justify-between">
@@ -58,7 +54,6 @@ export default function Home() {
           </CarouselItem>
         </CarouselContent>
       </Carousel>) : (
-
         <main className="flex flex-col items-center justify-center min-h-screen py-2">
           <div role="status">
             <svg aria-hidden="true" className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -68,7 +63,6 @@ export default function Home() {
             <span className="sr-only">Loading...</span>
           </div>
         </main>
-
       )
       }
     </>
