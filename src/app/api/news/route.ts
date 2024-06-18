@@ -12,7 +12,7 @@ export async function GET() {
             content: item.news_obj.content,
             author: item.news_obj.author_name,
         }
-    })
+    }).sort((a, b) => b.publishedAt - a.publishedAt)
     return Response.json(news)
 }
 

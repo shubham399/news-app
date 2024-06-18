@@ -36,7 +36,7 @@ export default function Home() {
           {news.map((singleNews, index) => (
             <CarouselItem key={index} className="pt-1 pb-2" >
               <a href={singleNews.url}>
-                <NewsCard title={singleNews.title} description={singleNews.description} image_url={singleNews.urlToImage} url={singleNews.url} author={singleNews.author} />
+                <NewsCard title={singleNews.title} description={singleNews.description} image_url={singleNews.urlToImage} url={singleNews.url} author={singleNews.author} publishedAt={singleNews.publishedAt} />
               </a>
             </CarouselItem>
           ))}
@@ -72,7 +72,7 @@ export default function Home() {
 
 
 
-function NewsCard({ title, description, image_url, url, author }: { title: string, description: string, image_url?: string, url: string, author?: string }) {
+function NewsCard({ title, description, image_url, url, author, publishedAt }: { title: string, description: string, image_url?: string, url: string, author?: string, publishedAt: string }) {
   return (
     <Card className="overflow-clip cursor-pointer m-auto  p-auto h-[80vh] w-[80vw] lg:h-[80vh] lg:w-[60vw] flex flex-col justify-between">
       <CardHeader className='flex justify-center items-center'>
@@ -83,7 +83,10 @@ function NewsCard({ title, description, image_url, url, author }: { title: strin
       </CardHeader>
       <CardFooter className="flex justify-between">
         <Link className="text-sm" href={url}>Read More</Link>
-        <p className='text-mute truncate'>{author && `By ${author}`}</p>
+        <div className="flex flex-col">
+          <p className='text-mute truncate'>{author && `By ${author}`}</p>
+          <p className='text-mute truncate'>{publishedAt && `Published ${new Date(publishedAt).toLocaleString()}`}</p>
+        </div>
       </CardFooter>
     </Card>
   );
