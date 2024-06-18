@@ -10,6 +10,7 @@ export async function GET() {
             publishedAt: item.news_obj.created_at,
             "urlToImage": item.news_obj.image_url,
             content: item.news_obj.content,
+            author: item.news_obj.author_name,
         }
     })
     return Response.json(news)
