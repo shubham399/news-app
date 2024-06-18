@@ -11,6 +11,7 @@ type NewsProp = {
   description: string,
   urlToImage?: string,
   author?: string,
+  publishedAt: number,
 }
 
 
@@ -72,7 +73,7 @@ export default function Home() {
 
 
 
-function NewsCard({ title, description, image_url, url, author, publishedAt }: { title: string, description: string, image_url?: string, url: string, author?: string, publishedAt: string }) {
+function NewsCard({ title, description, image_url, url, author, publishedAt }: { title: string, description: string, image_url?: string, url: string, author?: string, publishedAt: number }) {
   return (
     <Card className="overflow-clip cursor-pointer m-auto  p-auto h-[80vh] w-[80vw] lg:h-[80vh] lg:w-[60vw] flex flex-col justify-between">
       <CardHeader className='flex justify-center items-center'>
