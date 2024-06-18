@@ -77,7 +77,7 @@ function NewsCard({ title, description, image_url, url, author }: { title: strin
     <Card className="overflow-clip cursor-pointer m-auto  p-auto h-[80vh] w-[80vw] lg:h-[80vh] lg:w-[60vw] flex flex-col justify-between">
       <CardHeader className='flex justify-center items-center'>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img loading="lazy" alt={title} src={image_url} className='h-full w-full max-h-[600px] max-w-[600px] object-cover' />
+        <img loading="lazy" alt={title} src={image_url} className='h-full w-full max-h-[300px] max-w-[600px] object-cover' />
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
