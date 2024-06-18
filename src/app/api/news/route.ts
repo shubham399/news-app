@@ -2,7 +2,7 @@ export async function GET() {
     const URL = `https://m.inshorts.com/api/undefined/en/news?category=top_stories&max_limit=100&include_card_data=true`;
     const response = await fetch(URL, { next: { revalidate: 3600 } });
     const data: NewsAPI = await response.json()
-    const news = data.data.news_list.map((item) => {
+    const news = data.data.news_list.filter(item => !item.news_obj.sponsored_by).map((item) => {
         return {
             title: item.news_obj.title,
             description: item.news_obj.content,
