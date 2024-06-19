@@ -1,46 +1,105 @@
+const NEWS_TYPE = [
+    "crypto"
+    , "economy"
+    , "et_markets"
+    , "ga_dimension"
+    , "india"
+    , "mediawire"
+    , "mediawire_widget"
+    , "mf"
+    , "newsletter"
+    , "nri"
+    , "politics"
+    , "rise"
+    , "tech"
+    , "top_news"
+    , "videoshow"
+    , "webstories"
+]
+
+const DATA_TYPES = [
+    "articleshow",
+    "videoshow",
+    "premium",
+    "podcast",
+    "webstory"
+]
+
 export async function GET() {
     const URL = "https://etpwaapi.economictimes.com/request?type=home1";
     const response = await fetch(URL, { next: { revalidate: 20 } });
     const data: NewsAPI = await response.json()
-    const news = data.searchResult[0].data.map((item) => {
-        return {
-            title: item.title,
-            description: item.synopsis,
-            url: item.url,
-            publishedAt: new Date(item.date),
-            "urlToImage": item.img,
-            content: item.synopsis,
-            author: item.authors?.length && item.authors[0].title,
-        }
-    }).sort((a, b) => b.publishedAt.getTime() - a.publishedAt.getTime())
-    console.debug("🚀  file: route.ts:19  GET  news:", news.length);
+    const news: any[] = data.searchResult.filter(item => NEWS_TYPE.includes(item.name)).map((item) => {
+        return Array.isArray(item.data) ? item.data.filter(item => DATA_TYPES.includes(item.type)).reduce((acc, cur: Daum) => {
+
+            const data: NewsProp = {
+                title: cur.title,
+                description: cur?.synopsis,
+                url: cur.url,
+                publishedAt: cur.date.length > 0 ? new Date(cur.date) : new Date(),
+                "urlToImage": cur.img,
+                author: cur.authors?.length ? cur.authors[0].title : undefined,
+            }
+            return [...acc, data]
+        }, [] as NewsProp[]) : []
+    }).flat().filter(item => item.url && item.title && item.urlToImage)
+
+    console.debug("🚀  file: route.ts:19  GET  news:", news);
     return Response.json(news)
 }
 
+
+
+type NewsProp = {
+    title?: string,
+    url?: string,
+    description?: string,
+    urlToImage?: string,
+    author?: string,
+    publishedAt?: Date,
+}
+
+
 export interface NewsAPI {
     searchResult: SearchResult[]
-    parameters: Parameters
 }
 
 export interface SearchResult {
-    title: string
     name: string
+    data: Daum[]
+    type?: string
+    gridType?: string
+    modified?: string
+    trending?: Trending
+    title?: string
+    url?: string
+    thumb?: string
+}
+
+
+
+export interface Trending {
+    title?: string
     data: Daum[]
 }
 
 export interface Daum {
-    title: string
-    img: string
-    synopsis: string
-    url: string
-    msid: number
+    urlToImage?: string
+    title?: string
+    url?: string
+    img?: string
     date: string
     type: string
-    summary: string
-    RealEstateLocality: string
-    RealEstateAddress: string
     authors?: Author[]
+    layoutType?: string
+    id?: string
     readtime?: number
+    parentInfo?: ParentInfo
+    ctn_url?: string
+    name?: string
+    layout?: string
+    position?: string
+    synopsis?: string
 }
 
 export interface Author {
@@ -49,8 +108,8 @@ export interface Author {
     img: string
 }
 
-export interface Parameters {
-    type: string
-    msid: string
-    top: string
+export interface ParentInfo {
+    title: string
+    msid: number
+    url: string
 }
