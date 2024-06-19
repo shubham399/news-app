@@ -1,6 +1,6 @@
 export async function GET() {
-    const URL = `https://etpwaapi.economictimes.com/request?type=plist&msid=1373380680&top=100`;
-    const response = await fetch(URL, { next: { revalidate: 900 } });
+    const URL = "https://etpwaapi.economictimes.com/request?type=home1";
+    const response = await fetch(URL, { next: { revalidate: 20 } });
     const data: NewsAPI = await response.json()
     const news = data.searchResult[0].data.map((item) => {
         return {

@@ -20,7 +20,7 @@ export default function Home() {
   const [news, setNews] = useState<NewsProp[]>([])
 
   useEffect(() => {
-    fetch('/api/news').then(res => res.json()).then(setNews)
+    fetch('/api/news', { next: { revalidate: 60 } }).then(res => res.json()).then(setNews)
   }, [])
 
 
