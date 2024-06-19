@@ -43,8 +43,6 @@ export async function GET() {
             return [...acc, data]
         }, [] as NewsProp[]) : []
     }).flat().filter(item => item.url && item.title && item.urlToImage)
-
-    console.debug("🚀  file: route.ts:19  GET  news:", news);
     return Response.json(news)
 }
 
