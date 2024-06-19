@@ -29,14 +29,15 @@ export async function GET() {
     const URL = "https://etpwaapi.economictimes.com/request?type=home1";
     const response = await fetch(URL, { next: { revalidate: 20 } });
     const data: NewsAPI = await response.json()
-    const news: any[] = data.searchResult.filter(item => NEWS_TYPE.includes(item.name)).map((item) => {
+    const news: NewsProp[] = data.searchResult.filter(item => NEWS_TYPE.includes(item.name)).map((item) => {
         return Array.isArray(item.data) ? item.data.filter(item => DATA_TYPES.includes(item.type)).reduce((acc, cur: Daum) => {
-
+            const date = new Date();
+            date.setDate(date.getDate() - 1);
             const data: NewsProp = {
                 title: cur.title,
                 description: cur?.synopsis,
                 url: cur.url,
-                publishedAt: cur.date.length > 0 ? new Date(cur.date) : new Date(),
+                publishedAt: cur.date.length > 0 ? new Date(cur.date) : date,
                 "urlToImage": cur.img,
                 author: cur.authors?.length ? cur.authors[0].title : undefined,
             }
